@@ -1,11 +1,238 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import VideoEmbed from '../components/VideoEmbed';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const stremioDownloadUrl = 'https://www.stremio.com/downloads';
+const syncioRequestUrl = 'https://example.com/request-access';
+const youtubeEmbedUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+const mobileMoneyNumber = '+233 55 000 0000';
+
+const steps = [
+	{
+		title: 'Download Stremio',
+		description:
+			'Install the Stremio app for the smoothest experience on phone, tablet, or desktop. It is the easiest way to browse and play your streams.',
+		actionLabel: 'Get Stremio',
+		actionHref: stremioDownloadUrl,
+		icon: '01',
+	},
+	{
+		title: 'Request to be added',
+		description:
+			'Access is handled through Syncio. It will guide you through the invite flow and help with Stremio account setup if you do not already have one.',
+		actionLabel: 'Open Syncio',
+		actionHref: syncioRequestUrl,
+		icon: '02',
+	},
+	{
+		title: 'Log in and start browsing',
+		description:
+			'Once your request is complete, sign in to Stremio and your private setup will be ready for you to explore.',
+		icon: '03',
+	},
+	{
+		title: 'Choose the right stream',
+		description:
+			'Check the quality and file size before you click. Smaller files in GB can load faster, while higher-quality options are often larger and may take longer.',
+		icon: '04',
+	},
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="Hadad Private Streaming"
+	description="A simple private streaming guide for Hadad's friends and family."
+>
+	<div class="relative isolate min-h-screen overflow-hidden bg-[#06070b] text-white">
+		<div
+			class="absolute inset-0 -z-30 bg-cover bg-center bg-no-repeat opacity-35"
+			style="background-image: url('/images/streaming-poster.jpg');"
+		></div>
+		<div class="absolute inset-0 -z-20 bg-[linear-gradient(90deg,_rgba(6,7,11,0.92)_0%,_rgba(6,7,11,0.78)_42%,_rgba(6,7,11,0.72)_100%)]"></div>
+		<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(239,68,68,0.18),_transparent_32%),radial-gradient(circle_at_80%_20%,_rgba(59,130,246,0.14),_transparent_28%),linear-gradient(180deg,_rgba(6,7,11,0.18),_rgba(6,7,11,0.92))]"></div>
+		<div class="pointer-events-none absolute inset-0 opacity-[0.14] mix-blend-screen noise"></div>
+		<div class="pointer-events-none absolute inset-x-0 top-0 h-full opacity-45 lines"></div>
+
+		<div class="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+			<main id="top" class="flex-1">
+				<section class="grid min-h-[78vh] items-center gap-8 py-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-10 lg:py-12">
+					<div class="max-w-2xl">
+						<p class="text-sm font-medium tracking-[0.22em] text-white/55 uppercase">Private streaming for friends and family</p>
+						<h1 class="mt-5 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-7xl">
+							Welcome to Hadad private streaming
+						</h1>
+						<p class="mt-6 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+							A quiet little streaming space made for my people. Download Stremio, request access, and follow the steps on the right. That is the only part that really matters.
+						</p>
+						<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+							<a
+								href={stremioDownloadUrl}
+								target="_blank"
+								rel="noreferrer"
+								class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/90"
+							>
+								Download Stremio
+							</a>
+							<a
+								href={syncioRequestUrl}
+								class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:border-white/25 hover:bg-white/10"
+							>
+								Request access
+							</a>
+						</div>
+						<p class="mt-5 text-sm leading-6 text-white/55">
+							Syncio handles the access flow and can help with Stremio account setup if needed.
+						</p>
+					</div>
+
+					<section
+						aria-labelledby="instructions-title"
+						class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-8"
+					>
+						<div class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+						<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Start here</p>
+						<h2 id="instructions-title" class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+							How to get started
+						</h2>
+						<p class="mt-3 max-w-lg text-sm leading-6 text-white/60 sm:text-base">
+							Go in order. Keep it simple. The stream tips at the end help you avoid slow links.
+						</p>
+
+						<ol class="relative mt-8 space-y-8">
+							<div class="absolute bottom-3 left-[15px] top-3 w-px bg-gradient-to-b from-white/35 via-white/15 to-transparent"></div>
+							{steps.map((step) => (
+								<li class="relative grid gap-4 pl-10">
+									<div class="absolute left-0 top-1.5 flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/8 text-[11px] font-semibold tracking-[0.16em] text-white/80 shadow-[0_0_0_6px_rgba(255,255,255,0.02)] backdrop-blur">
+										{step.icon}
+									</div>
+									<div>
+										<h3 class="text-lg font-semibold text-white sm:text-xl">{step.title}</h3>
+										<p class="mt-2 text-sm leading-6 text-white/65 sm:text-[15px]">
+											{step.description}
+										</p>
+										{step.actionHref && step.actionLabel && (
+											<a
+												href={step.actionHref}
+												target="_blank"
+												rel="noreferrer"
+												class="mt-3 inline-flex items-center text-sm font-semibold text-white underline decoration-white/35 underline-offset-4 transition hover:decoration-white/70"
+											>
+												{step.actionLabel}
+											</a>
+										)}
+									</div>
+								</li>
+							))}
+						</ol>
+					</section>
+				</section>
+
+				<section class="grid gap-5 pb-6 lg:grid-cols-[1.05fr_0.95fr]">
+					<div class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-4 backdrop-blur-xl sm:p-5">
+						<div class="mb-4 flex items-end justify-between gap-4">
+							<div>
+								<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Quick guide</p>
+								<h2 class="mt-2 text-xl font-semibold text-white sm:text-2xl">How to choose the right stream</h2>
+							</div>
+							<p class="max-w-xs text-right text-sm leading-6 text-white/55">
+								Look at quality and file size in GB. Smaller files are often faster.
+							</p>
+						</div>
+						<VideoEmbed url={youtubeEmbedUrl} title="How to choose the right stream" client:load />
+					</div>
+
+					<div class="grid gap-5">
+						<section class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+							<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Request access</p>
+							<h2 id="access-title" class="mt-3 text-2xl font-semibold text-white">Need to be added?</h2>
+							<p class="mt-3 text-sm leading-6 text-white/60">
+								Use Syncio for the access request. Once that is done, log in to Stremio and start browsing.
+							</p>
+							<a
+								href={syncioRequestUrl}
+								class="mt-5 inline-flex items-center justify-center rounded-full bg-[#e50914] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f6121d]"
+							>
+								Request access
+							</a>
+						</section>
+
+						<section class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+							<h2 id="support-title" class="text-xl font-semibold text-white">Want to support the project?</h2>
+							<p class="mt-3 text-sm leading-6 text-white/60">
+								Coffee is optional, but appreciated.
+							</p>
+							<p class="mt-4 text-sm font-medium text-white/85">MTN Mobile Money: {mobileMoneyNumber}</p>
+						</section>
+					</div>
+				</section>
+			</main>
+
+			<footer class="border-t border-white/10 py-5 text-sm text-white/45">
+				<p>Made for close people. Pick the stream that fits your connection and enjoy.</p>
+			</footer>
+		</div>
+	</div>
 </Layout>
+
+<style>
+	.noise {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+		animation: grainShift 9s steps(8) infinite;
+	}
+
+	.lines::before,
+	.lines::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-repeat: no-repeat;
+	}
+
+	.lines::before {
+		background-image: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.18) 48%, transparent 52%);
+		background-size: 200% 100%;
+		animation: drift 14s linear infinite;
+	}
+
+	.lines::after {
+		background-image: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 49.5%, transparent 50.5%);
+		background-size: 280px 100%;
+		opacity: 0.35;
+	}
+
+	@keyframes drift {
+		from {
+			transform: translateX(-18%);
+		}
+
+		to {
+			transform: translateX(18%);
+		}
+	}
+
+	@keyframes grainShift {
+		0% {
+			transform: translate(0, 0);
+		}
+
+		20% {
+			transform: translate(-3%, 2%);
+		}
+
+		40% {
+			transform: translate(2%, -2%);
+		}
+
+		60% {
+			transform: translate(-2%, 1%);
+		}
+
+		80% {
+			transform: translate(3%, -1%);
+		}
+
+		100% {
+			transform: translate(0, 0);
+		}
+	}
+</style>

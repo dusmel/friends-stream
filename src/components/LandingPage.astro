@@ -1,0 +1,412 @@
+---
+import VideoEmbed from './VideoEmbed';
+
+type Lang = 'en' | 'fr';
+type ActionKind = 'download' | 'request' | undefined;
+
+interface Props {
+	lang: Lang;
+	stremioDownloadUrl: string;
+	syncioRequestUrl: string;
+	youtubeEmbedUrl: string;
+	mobileMoneyNumber: string;
+	currentYear: number;
+}
+
+const {
+	lang,
+	stremioDownloadUrl,
+	syncioRequestUrl,
+	youtubeEmbedUrl,
+	mobileMoneyNumber,
+	currentYear,
+} = Astro.props;
+
+const translations = {
+	en: {
+		eyebrow: 'Private streaming for friends and family',
+		heading: 'Welcome to Hadad private streaming',
+		heroText:
+			'A quiet little streaming space made for my people. Download Stremio, request access, and follow the steps on the right. It is simple as that!',
+		primaryCta: 'Download Stremio',
+		secondaryCta: 'Request access',
+		helper: 'Syncio handles the access flow and can help with Stremio account setup if needed.',
+		startEyebrow: 'Start here',
+		stepsTitle: 'How to get started',
+		stepsIntro: 'Go in order. Keep it simple. The stream tips at the end help you avoid slow links.',
+		videoEyebrow: 'Quick guide',
+		videoTitle: 'How to choose the right stream',
+		videoHint: 'Look at quality and file size in GB. Smaller files are often faster.',
+		accessEyebrow: 'Request access',
+		accessTitle: 'Need to be added?',
+		accessText: 'Use Syncio for the access request. Once that is done, log in to Stremio and start browsing.',
+		supportTitle: 'Want to support the project?',
+		supportText: 'Coffee is optional, but appreciated.',
+		moneyLabel: 'MTN Mobile Money',
+		footer: 'Made for close people. Pick the stream that fits your connection and enjoy.',
+		copyright: `Copyright ${currentYear} Hadad. Private access for friends and family only.`,
+		steps: [
+			{
+				title: 'Download Stremio',
+				description:
+					'Install the Stremio app for the smoothest experience on phone, tablet, or desktop. It is the easiest way to browse and play your streams.',
+				actionLabel: 'Get Stremio',
+				actionKind: 'download' as ActionKind,
+				icon: '01',
+			},
+			{
+				title: 'Request to be added',
+				description:
+					'Access is handled through Syncio. It will guide you through the invite flow and help with Stremio account setup if you do not already have one.',
+				actionLabel: 'Open Syncio',
+				actionKind: 'request' as ActionKind,
+				icon: '02',
+			},
+			{
+				title: 'Log in and start browsing',
+				description:
+					'Once your request is complete, sign in to Stremio and your private setup will be ready for you to explore.',
+				actionKind: undefined,
+				icon: '03',
+			},
+			{
+				title: 'Choose the right stream',
+				description:
+					'Check the quality and file size before you click. Smaller files in GB can load faster, while higher-quality options are often larger and may take longer.',
+				actionKind: undefined,
+				icon: '04',
+			},
+		],
+	},
+	fr: {
+		eyebrow: 'Streaming prive pour les amis et la famille',
+		heading: 'Bienvenue sur le streaming prive de Hadad',
+		heroText:
+			"C'est un petit espace de streaming pense pour mes proches. Telecharge Stremio, demande l'acces, puis suis simplement les etapes a droite. C'est vraiment la partie la plus importante.",
+		primaryCta: 'Telecharger Stremio',
+		secondaryCta: "Demander l'acces",
+		helper: "Syncio gere la demande d'acces et peut aussi aider pour la creation ou la connexion du compte Stremio si besoin.",
+		startEyebrow: 'Commencer ici',
+		stepsTitle: 'Comment commencer',
+		stepsIntro: "Suis simplement l'ordre des etapes. Les conseils a la fin aident a eviter les liens trop lents.",
+		videoEyebrow: 'Guide rapide',
+		videoTitle: 'Comment choisir le bon stream',
+		videoHint: 'Regarde la qualite et la taille du fichier en Go. Les fichiers plus petits sont souvent plus rapides.',
+		accessEyebrow: "Demande d'acces",
+		accessTitle: 'Besoin d etre ajoute ?',
+		accessText: "Utilise Syncio pour faire la demande d'acces. Une fois termine, connecte-toi a Stremio et commence a parcourir le catalogue.",
+		supportTitle: 'Envie de soutenir le projet ?',
+		supportText: 'Le cafe est totalement optionnel, mais toujours apprecie.',
+		moneyLabel: 'MTN Mobile Money',
+		footer: 'Reserve aux proches. Choisis le stream qui convient a ta connexion et profite.',
+		copyright: `Copyright ${currentYear} Hadad. Acces prive reserve aux amis et a la famille.`,
+		steps: [
+			{
+				title: 'Telecharger Stremio',
+				description:
+					"Installe l'application Stremio pour une experience plus fluide sur telephone, tablette ou ordinateur. C'est le moyen le plus simple pour parcourir et lancer les contenus.",
+				actionLabel: 'Telecharger Stremio',
+				actionKind: 'download' as ActionKind,
+				icon: '01',
+			},
+			{
+				title: 'Demander a etre ajoute',
+				description:
+					"L'acces passe par Syncio. Il guide toute la procedure et peut aussi t'aider a configurer ton compte Stremio si tu n'en as pas encore.",
+				actionLabel: 'Ouvrir Syncio',
+				actionKind: 'request' as ActionKind,
+				icon: '02',
+			},
+			{
+				title: 'Se connecter et parcourir',
+				description:
+					"Une fois la demande terminee, connecte-toi a Stremio et ton espace prive sera pret a etre explore.",
+				actionKind: undefined,
+				icon: '03',
+			},
+			{
+				title: 'Choisir le bon stream',
+				description:
+					'Verifie la qualite et la taille du fichier avant de cliquer. Les fichiers plus petits en Go se lancent souvent plus vite, tandis que les versions de meilleure qualite sont generalement plus lourdes.',
+				actionKind: undefined,
+				icon: '04',
+			},
+		],
+	},
+} as const;
+
+const t = translations[lang];
+const localeHref = {
+	en: '/',
+	fr: '/fr/',
+};
+
+const actionHref = (actionKind: ActionKind) => {
+	if (actionKind === 'download') return stremioDownloadUrl;
+	if (actionKind === 'request') return syncioRequestUrl;
+	return undefined;
+};
+---
+
+<div class="relative isolate min-h-screen overflow-hidden bg-[#06070b] text-white">
+	<img
+		src="/images/Fantasy-Wallpaper.jpg"
+		alt=""
+		aria-hidden="true"
+		loading="eager"
+		decoding="async"
+		class="absolute inset-0 -z-30 h-full w-full scale-[1.02] object-cover object-[72%_center] opacity-100 brightness-[1.02] saturate-[1.08] sm:object-[68%_center] lg:object-right"
+		style="mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.66) 18%, rgba(0, 0, 0, 0.94) 40%, rgba(0, 0, 0, 0.98) 100%); -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.66) 18%, rgba(0, 0, 0, 0.94) 40%, rgba(0, 0, 0, 0.98) 100%);"
+	/>
+	<div class="absolute inset-0 -z-20 bg-[linear-gradient(90deg,_rgba(6,7,11,0.88)_0%,_rgba(6,7,11,0.62)_20%,_rgba(6,7,11,0.22)_52%,_rgba(6,7,11,0.08)_74%,_rgba(6,7,11,0.42)_100%)]"></div>
+	<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_30%,_rgba(255,255,255,0.16),_transparent_24%),linear-gradient(180deg,_rgba(6,7,11,0.02),_rgba(6,7,11,0.78))]"></div>
+	<div class="absolute inset-y-0 left-0 -z-10 w-[41%] bg-[linear-gradient(90deg,_rgba(6,7,11,0.82),_rgba(6,7,11,0.35),_transparent)]"></div>
+	<div class="absolute inset-x-0 bottom-0 -z-10 h-28 bg-[linear-gradient(180deg,_transparent,_rgba(6,7,11,0.82))]"></div>
+	<div class="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-[62%] opacity-85 mix-blend-screen md:block circuit-map">
+		<svg viewBox="0 0 960 1200" class="h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+			<defs>
+				<filter id="glow">
+					<feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+					<feMerge>
+						<feMergeNode in="blur"></feMergeNode>
+						<feMergeNode in="SourceGraphic"></feMergeNode>
+					</feMerge>
+				</filter>
+				<path id="route-a" d="M90 140 H350 V260 H270 V420 H500 V640 H370 V910 H760" />
+				<path id="route-b" d="M200 90 V230 H450 V370 H650 V520 H520 V900" />
+				<path id="route-c" d="M760 120 H560 V250 H790 V470 H660 V730 H850" />
+				<path id="route-d" d="M280 640 H470 V810 H720" />
+				<path id="route-e" d="M130 300 H240 V520 H420 V700 H610 V980" />
+				<path id="route-f" d="M520 170 V330 H320 V540 H760" />
+				<path id="route-g" d="M650 240 H860 V420 H740 V1020" />
+				<path id="route-h" d="M410 110 V180 H710 V340 H610 V580 H820" />
+				<path id="route-i" d="M180 760 H330 V980 H560 V1110 H820" />
+			</defs>
+			<g fill="none" stroke="rgba(255,255,255,0.085)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+				<use href="#route-a"></use>
+				<use href="#route-b"></use>
+				<use href="#route-c"></use>
+				<use href="#route-d"></use>
+				<use href="#route-e"></use>
+				<use href="#route-f"></use>
+				<use href="#route-g"></use>
+				<use href="#route-h"></use>
+				<use href="#route-i"></use>
+			</g>
+			<g fill="rgba(255,255,255,0.16)">
+				<circle cx="350" cy="260" r="3"></circle>
+				<circle cx="270" cy="420" r="3"></circle>
+				<circle cx="500" cy="640" r="3"></circle>
+				<circle cx="450" cy="230" r="3"></circle>
+				<circle cx="650" cy="370" r="3"></circle>
+				<circle cx="520" cy="540" r="3"></circle>
+				<circle cx="790" cy="470" r="3"></circle>
+				<circle cx="610" cy="580" r="3"></circle>
+				<circle cx="740" cy="420" r="3"></circle>
+				<circle cx="420" cy="700" r="3"></circle>
+			</g>
+			<g filter="url(#glow)">
+				<circle r="3.6" fill="rgba(255,255,255,0.98)">
+					<animateMotion dur="7.5s" repeatCount="indefinite" rotate="auto">
+						<mpath href="#route-a"></mpath>
+					</animateMotion>
+				</circle>
+				<rect width="18" height="2.2" rx="999" fill="rgba(255,255,255,0.96)">
+					<animateMotion dur="9.4s" repeatCount="indefinite" rotate="auto">
+						<mpath href="#route-b"></mpath>
+					</animateMotion>
+				</rect>
+				<circle r="3.2" fill="rgba(255,255,255,0.95)">
+					<animateMotion dur="8.6s" repeatCount="indefinite" rotate="auto" begin="-3s">
+						<mpath href="#route-c"></mpath>
+					</animateMotion>
+				</circle>
+				<rect width="15" height="2" rx="999" fill="rgba(255,255,255,0.9)">
+					<animateMotion dur="6.8s" repeatCount="indefinite" rotate="auto" begin="-1.8s">
+						<mpath href="#route-d"></mpath>
+					</animateMotion>
+				</rect>
+				<circle r="2.8" fill="rgba(255,255,255,0.9)">
+					<animateMotion dur="10.2s" repeatCount="indefinite" rotate="auto" begin="-4.2s">
+						<mpath href="#route-e"></mpath>
+					</animateMotion>
+				</circle>
+				<rect width="20" height="2.4" rx="999" fill="rgba(255,255,255,0.96)">
+					<animateMotion dur="11.5s" repeatCount="indefinite" rotate="auto" begin="-2.6s">
+						<mpath href="#route-f"></mpath>
+					</animateMotion>
+				</rect>
+				<circle r="3.4" fill="rgba(255,255,255,0.95)">
+					<animateMotion dur="8.8s" repeatCount="indefinite" rotate="auto" begin="-5.4s">
+						<mpath href="#route-g"></mpath>
+					</animateMotion>
+				</circle>
+				<rect width="16" height="2.2" rx="999" fill="rgba(255,255,255,0.94)">
+					<animateMotion dur="9.8s" repeatCount="indefinite" rotate="auto" begin="-6.1s">
+						<mpath href="#route-h"></mpath>
+					</animateMotion>
+				</rect>
+				<circle r="3" fill="rgba(255,255,255,0.92)">
+					<animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-7s">
+						<mpath href="#route-i"></mpath>
+					</animateMotion>
+				</circle>
+			</g>
+		</svg>
+	</div>
+
+	<div class="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+		<div class="flex justify-end">
+			<div class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1 text-sm backdrop-blur-md">
+				<a
+					href={localeHref.en}
+					class:list={[
+						'rounded-full px-3 py-1.5 transition',
+						lang === 'en' ? 'bg-white text-slate-950' : 'text-white/68 hover:bg-white/10 hover:text-white',
+					]}
+					hreflang="en"
+					aria-current={lang === 'en' ? 'page' : undefined}
+				>
+					EN
+				</a>
+				<a
+					href={localeHref.fr}
+					class:list={[
+						'rounded-full px-3 py-1.5 transition',
+						lang === 'fr' ? 'bg-white text-slate-950' : 'text-white/68 hover:bg-white/10 hover:text-white',
+					]}
+					hreflang="fr"
+					aria-current={lang === 'fr' ? 'page' : undefined}
+				>
+					FR
+				</a>
+			</div>
+		</div>
+
+		<main id="top" class="flex-1">
+			<section class="grid min-h-[70vh] items-center gap-6 py-4 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8 lg:py-6">
+				<div class="max-w-2xl">
+					<p class="rounded-full border border-white/14 bg-white/8 px-4 py-2 text-[10px] font-medium tracking-[0.22em] text-white/70  uppercase inline-block">{t.eyebrow}</p>
+					<h1 class="mt-4 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl xl:text-[4.4rem]">
+						{t.heading}
+					</h1>
+					<p class="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base">
+						{t.heroText}
+					</p>
+					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
+						<a
+							href={stremioDownloadUrl}
+							target="_blank"
+							rel="noreferrer"
+							class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/90"
+						>
+							{t.primaryCta}
+						</a>
+						<a
+							href={syncioRequestUrl}
+							class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:border-white/25 hover:bg-white/10"
+						>
+							{t.secondaryCta}
+						</a>
+					</div>
+					<p class="mt-4 text-sm leading-6 text-white/55">
+						{t.helper}
+					</p>
+				</div>
+
+				<section
+					aria-labelledby="instructions-title"
+					class="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/50 p-5 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.85)] backdrop-blur-md sm:p-6"
+				>
+					<div class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+					<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.startEyebrow}</p>
+					<h2 id="instructions-title" class="mt-2.5 text-2xl font-semibold tracking-tight text-white sm:text-[1.9rem]">
+						{t.stepsTitle}
+					</h2>
+					<p class="mt-2.5 max-w-lg text-sm leading-6 text-white/60">
+						{t.stepsIntro}
+					</p>
+
+					<ol class="relative mt-5 space-y-4">
+						<div class="absolute bottom-3 left-[15px] top-3 w-px bg-gradient-to-b from-white/35 via-white/15 to-transparent"></div>
+						{t.steps.map((step) => (
+							<li class="relative grid gap-2.5 pl-10">
+								<div class="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/8 text-[11px] font-semibold tracking-[0.16em] text-white/80 shadow-[0_0_0_6px_rgba(255,255,255,0.02)] backdrop-blur">
+									{step.icon}
+								</div>
+								<div>
+									<h3 class="text-[1.02rem] font-semibold text-white sm:text-lg">{step.title}</h3>
+									<p class="mt-1 text-sm leading-5.5 text-white/65">
+										{step.description}
+									</p>
+									{actionHref(step.actionKind) && step.actionLabel && (
+										<a
+											href={actionHref(step.actionKind)}
+											target="_blank"
+											rel="noreferrer"
+											class="mt-2.5 inline-flex items-center justify-center rounded-full border border-white/14 bg-white/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:border-white/24 hover:bg-white/12"
+										>
+											{step.actionLabel}
+										</a>
+									)}
+								</div>
+							</li>
+						))}
+					</ol>
+				</section>
+			</section>
+
+			<!-- <section class="grid gap-4 pb-4 lg:grid-cols-[1.05fr_0.95fr]">
+				<div class="rounded-[1.5rem] border border-white/10 bg-black/22 p-4 backdrop-blur-md sm:p-5">
+					<div class="mb-4 flex items-end justify-between gap-4">
+						<div>
+							<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.videoEyebrow}</p>
+							<h2 class="mt-2 text-lg font-semibold text-white sm:text-2xl">{t.videoTitle}</h2>
+						</div>
+						<p class="max-w-xs text-right text-sm leading-6 text-white/55">
+							{t.videoHint}
+						</p>
+					</div>
+					<VideoEmbed url={youtubeEmbedUrl} title={t.videoTitle} client:load />
+				</div>
+
+				<div class="grid gap-4">
+					<section class="rounded-[1.5rem] border border-white/10 bg-black/22 p-5 backdrop-blur-md">
+						<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.accessEyebrow}</p>
+						<h2 id="access-title" class="mt-2.5 text-xl font-semibold text-white sm:text-2xl">{t.accessTitle}</h2>
+						<p class="mt-3 text-sm leading-6 text-white/60">
+							{t.accessText}
+						</p>
+						<a
+							href={syncioRequestUrl}
+							class="mt-5 inline-flex items-center justify-center rounded-full bg-[#e50914] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f6121d]"
+						>
+							{t.secondaryCta}
+						</a>
+					</section>
+
+					<section class="rounded-[1.5rem] border border-white/10 bg-black/22 p-5 backdrop-blur-md">
+						<h2 id="support-title" class="text-lg font-semibold text-white sm:text-xl">{t.supportTitle}</h2>
+						<p class="mt-3 text-sm leading-6 text-white/60">
+							{t.supportText}
+						</p>
+						<p class="mt-4 text-sm font-medium text-white/85">{t.moneyLabel}: {mobileMoneyNumber}</p>
+					</section>
+				</div>
+			</section> -->
+		</main>
+
+		<footer class="border-t border-white/10 py-4 text-sm text-white/45">
+			<p>{t.footer}</p>
+			<p class="mt-2 text-white/35">{t.copyright}</p>
+		</footer>
+	</div>
+</div>
+
+<style>
+	@media (prefers-reduced-motion: reduce) {
+		.circuit-map {
+			display: none;
+		}
+	}
+</style>

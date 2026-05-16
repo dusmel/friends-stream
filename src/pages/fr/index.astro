@@ -1,6 +1,6 @@
 ---
-import LandingPage from '../components/LandingPage.astro';
-import Layout from '../layouts/Layout.astro';
+import LandingPage from '../../components/LandingPage.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const stremioDownloadUrl = 'https://www.stremio.com/downloads';
 const syncioRequestUrl = 'https://example.com/request-access';
@@ -10,12 +10,12 @@ const currentYear = new Date().getFullYear();
 ---
 
 <Layout
-	title="Hadad Private Streaming"
-	description="A private streaming guide for Hadad's friends and family."
-	lang="en"
+	title="Streaming Prive Hadad"
+	description="Un guide prive de streaming pour les amis et la famille de Hadad."
+	lang="fr"
 >
 	<LandingPage
-		lang="en"
+		lang="fr"
 		stremioDownloadUrl={stremioDownloadUrl}
 		syncioRequestUrl={syncioRequestUrl}
 		youtubeEmbedUrl={youtubeEmbedUrl}

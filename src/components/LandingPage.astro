@@ -1,13 +1,12 @@
 ---
-import VideoEmbed from './VideoEmbed';
-
 type Lang = 'en' | 'fr';
 type ActionKind = 'download' | 'request' | undefined;
 
 interface Props {
 	lang: Lang;
 	stremioDownloadUrl: string;
-	syncioRequestUrl: string;
+	englishInviteUrl: string;
+	frenchInviteUrl: string;
 	youtubeEmbedUrl: string;
 	mobileMoneyNumber: string;
 	currentYear: number;
@@ -16,34 +15,33 @@ interface Props {
 const {
 	lang,
 	stremioDownloadUrl,
-	syncioRequestUrl,
-	youtubeEmbedUrl,
+	englishInviteUrl,
+	frenchInviteUrl,
+	youtubeEmbedUrl: _youtubeEmbedUrl,
 	mobileMoneyNumber,
 	currentYear,
 } = Astro.props;
+
+const defaultContentPreference: Lang = lang === 'fr' ? 'fr' : 'en';
+const defaultInviteUrl = defaultContentPreference === 'fr' ? frenchInviteUrl : englishInviteUrl;
 
 const translations = {
 	en: {
 		eyebrow: 'Private streaming for friends and family',
 		heading: 'Welcome to Hadad private streaming',
 		heroText:
-			'A quiet little streaming space made for my people. Download Stremio, request access, and follow the steps on the right. It is simple as that!',
+			'A quiet little streaming space made for my people. Download Stremio, request access, and follow the steps on the right. It really is that simple.',
 		primaryCta: 'Download Stremio',
 		secondaryCta: 'Request access',
-		helper: 'Syncio handles the access flow and can help with Stremio account setup if needed.',
+		helper: 'Choose the catalog you want first. The request links will follow that choice.',
+		preferenceLabel: 'Content preference',
+		preferenceHint: 'Pick English or French content before you request access.',
+		preferenceEnglish: 'English content 🇬🇧',
+		preferenceFrench: 'French content 🇫🇷',
 		startEyebrow: 'Start here',
 		stepsTitle: 'How to get started',
 		stepsIntro: 'Go in order. Keep it simple. The stream tips at the end help you avoid slow links.',
-		videoEyebrow: 'Quick guide',
-		videoTitle: 'How to choose the right stream',
-		videoHint: 'Look at quality and file size in GB. Smaller files are often faster.',
-		accessEyebrow: 'Request access',
-		accessTitle: 'Need to be added?',
-		accessText: 'Use Syncio for the access request. Once that is done, log in to Stremio and start browsing.',
-		supportTitle: 'Want to support the project?',
-		supportText: 'Coffee is optional, but appreciated.',
-		moneyLabel: 'MTN Mobile Money',
-		footer: 'Made for close people. Pick the stream that fits your connection and enjoy.',
+		footer: 'Made for friends. Pick the stream that fits your internet speed and enjoy.',
 		copyright: `Copyright ${currentYear} Hadad. Private access for friends and family only.`,
 		steps: [
 			{
@@ -57,8 +55,8 @@ const translations = {
 			{
 				title: 'Request to be added',
 				description:
-					'Access is handled through Syncio. It will guide you through the invite flow and help with Stremio account setup if you do not already have one.',
-				actionLabel: 'Open Syncio',
+					'Access is handled on request. Choose your content preference first, then use the link below. If you still need a Stremio account, the flow will guide you through it.',
+				actionLabel: 'Request access',
 				actionKind: 'request' as ActionKind,
 				icon: '02',
 			},
@@ -79,55 +77,50 @@ const translations = {
 		],
 	},
 	fr: {
-		eyebrow: 'Streaming prive pour les amis et la famille',
-		heading: 'Bienvenue sur le streaming prive de Hadad',
+		eyebrow: 'Streaming privé pour les amis et la famille',
+		heading: 'Bienvenue sur le streaming privé d\' Hadad',
 		heroText:
-			"C'est un petit espace de streaming pense pour mes proches. Telecharge Stremio, demande l'acces, puis suis simplement les etapes a droite. C'est vraiment la partie la plus importante.",
-		primaryCta: 'Telecharger Stremio',
-		secondaryCta: "Demander l'acces",
-		helper: "Syncio gere la demande d'acces et peut aussi aider pour la creation ou la connexion du compte Stremio si besoin.",
+			"C'est un petit espace de streaming pensé pour mes proches. Télécharge Stremio, demande l'accès, puis suis simplement les étapes à droite. C'est vraiment aussi simple que ça.",
+		primaryCta: 'Télécharger Stremio',
+		secondaryCta: "Demander l'accès",
+		helper: 'Choisis d’abord le catalogue que tu veux. Les liens de demande s’adapteront automatiquement à ce choix.',
+		preferenceLabel: 'Préférence de contenu',
+		preferenceHint: 'Choisis le contenu en anglais ou en français avant de demander l’accès.',
+		preferenceEnglish: 'Contenu en anglais 🇬🇧',
+		preferenceFrench: 'Contenu en français 🇫🇷',
 		startEyebrow: 'Commencer ici',
 		stepsTitle: 'Comment commencer',
-		stepsIntro: "Suis simplement l'ordre des etapes. Les conseils a la fin aident a eviter les liens trop lents.",
-		videoEyebrow: 'Guide rapide',
-		videoTitle: 'Comment choisir le bon stream',
-		videoHint: 'Regarde la qualite et la taille du fichier en Go. Les fichiers plus petits sont souvent plus rapides.',
-		accessEyebrow: "Demande d'acces",
-		accessTitle: 'Besoin d etre ajoute ?',
-		accessText: "Utilise Syncio pour faire la demande d'acces. Une fois termine, connecte-toi a Stremio et commence a parcourir le catalogue.",
-		supportTitle: 'Envie de soutenir le projet ?',
-		supportText: 'Le cafe est totalement optionnel, mais toujours apprecie.',
-		moneyLabel: 'MTN Mobile Money',
-		footer: 'Reserve aux proches. Choisis le stream qui convient a ta connexion et profite.',
-		copyright: `Copyright ${currentYear} Hadad. Acces prive reserve aux amis et a la famille.`,
+		stepsIntro: 'Suis simplement les étapes dans l’ordre. Les conseils à la fin t’aideront à éviter les liens trop lourds ou trop lents.',
+		footer: 'Réservé aux proches. Choisis le stream qui convient le mieux à ta connexion et profite.',
+		copyright: `Copyright ${currentYear} Hadad. Accès privé réservé aux amis et à la famille.`,
 		steps: [
 			{
-				title: 'Telecharger Stremio',
+				title: 'Télécharger Stremio',
 				description:
-					"Installe l'application Stremio pour une experience plus fluide sur telephone, tablette ou ordinateur. C'est le moyen le plus simple pour parcourir et lancer les contenus.",
-				actionLabel: 'Telecharger Stremio',
+					'L’application Stremio offre une expérience plus fluide sur téléphone, tablette ou ordinateur. C’est la façon la plus simple de parcourir et de lancer les contenus.',
+				actionLabel: 'Télécharger Stremio',
 				actionKind: 'download' as ActionKind,
 				icon: '01',
 			},
 			{
-				title: 'Demander a etre ajoute',
+				title: 'Demander à être ajouté',
 				description:
-					"L'acces passe par Syncio. Il guide toute la procedure et peut aussi t'aider a configurer ton compte Stremio si tu n'en as pas encore.",
-				actionLabel: 'Ouvrir Syncio',
+					"Ton accès se fait sur demande. Choisis d’abord le type de contenu que tu veux, puis utilise le lien ci-dessous. Si tu as encore besoin d’un compte Stremio, le parcours te guidera.",
+				actionLabel: "Demander l'accès",
 				actionKind: 'request' as ActionKind,
 				icon: '02',
 			},
 			{
 				title: 'Se connecter et parcourir',
 				description:
-					"Une fois la demande terminee, connecte-toi a Stremio et ton espace prive sera pret a etre explore.",
+					'Ta demande terminée, connecte-toi à Stremio et ton espace privé sera prêt à être exploré.',
 				actionKind: undefined,
 				icon: '03',
 			},
 			{
 				title: 'Choisir le bon stream',
 				description:
-					'Verifie la qualite et la taille du fichier avant de cliquer. Les fichiers plus petits en Go se lancent souvent plus vite, tandis que les versions de meilleure qualite sont generalement plus lourdes.',
+					'Vérifie la qualité et la taille du fichier avant de cliquer. Les fichiers plus légers en Go se lancent souvent plus vite, tandis que les versions de meilleure qualité sont généralement plus lourdes.',
 				actionKind: undefined,
 				icon: '04',
 			},
@@ -140,15 +133,21 @@ const localeHref = {
 	en: '/',
 	fr: '/fr/',
 };
+const [headingBefore, headingAfter = ''] = t.heading.split('Hadad');
 
 const actionHref = (actionKind: ActionKind) => {
 	if (actionKind === 'download') return stremioDownloadUrl;
-	if (actionKind === 'request') return syncioRequestUrl;
+	if (actionKind === 'request') return defaultInviteUrl;
 	return undefined;
 };
 ---
 
-<div class="relative isolate min-h-screen overflow-hidden bg-[#06070b] text-white">
+<div
+	class="relative isolate min-h-screen overflow-hidden bg-[#06070b] text-white"
+	data-invite-en={englishInviteUrl}
+	data-invite-fr={frenchInviteUrl}
+	data-default-preference={defaultContentPreference}
+>
 	<img
 		src="/images/Fantasy-Wallpaper.jpg"
 		alt=""
@@ -284,15 +283,34 @@ const actionHref = (actionKind: ActionKind) => {
 		</div>
 
 		<main id="top" class="flex-1">
-			<section class="grid min-h-[70vh] items-center gap-6 py-4 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8 lg:py-6">
+			<section class="grid min-h-[70vh] items-center gap-6 py-4 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
 				<div class="max-w-2xl">
-					<p class="rounded-full border border-white/14 bg-white/8 px-4 py-2 text-[10px] font-medium tracking-[0.22em] text-white/70  uppercase inline-block">{t.eyebrow}</p>
+					<p class="rounded-full border border-white/14 bg-white/8 px-4 py-2 text-[10px] font-medium tracking-[0.22em] text-white/70 uppercase inline-block">{t.eyebrow}</p>
 					<h1 class="mt-4 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl xl:text-[4.4rem]">
-						{t.heading}
+						{headingBefore}<span class="text-rose-200" style="font-family: 'Sora', sans-serif;">Hadad</span>{headingAfter}
 					</h1>
 					<p class="mt-5 max-w-xl text-[15px] leading-7 text-white/72 sm:text-base">
 						{t.heroText}
 					</p>
+					<div class="mt-5 max-w-xl rounded-[1.25rem] border border-white/10 bg-black/30 p-4 backdrop-blur-md">
+						<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.preferenceLabel}</p>
+						<div class="mt-3 inline-flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/5 p-1">
+							<button
+								type="button"
+								data-preference-option="en"
+								class="rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition text-white/70 hover:bg-white/10 hover:text-white"
+							>
+								{t.preferenceEnglish}
+							</button>
+							<button
+								type="button"
+								data-preference-option="fr"
+								class="rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition text-white/70 hover:bg-white/10 hover:text-white"
+							>
+								{t.preferenceFrench}
+							</button>
+						</div>
+					</div>
 					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
 						<a
 							href={stremioDownloadUrl}
@@ -303,15 +321,15 @@ const actionHref = (actionKind: ActionKind) => {
 							{t.primaryCta}
 						</a>
 						<a
-							href={syncioRequestUrl}
+							href={defaultInviteUrl}
+							target="_blank"
+							rel="noreferrer"
+							data-request-link
 							class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:border-white/25 hover:bg-white/10"
 						>
 							{t.secondaryCta}
 						</a>
 					</div>
-					<p class="mt-4 text-sm leading-6 text-white/55">
-						{t.helper}
-					</p>
 				</div>
 
 				<section
@@ -344,6 +362,7 @@ const actionHref = (actionKind: ActionKind) => {
 											href={actionHref(step.actionKind)}
 											target="_blank"
 											rel="noreferrer"
+											data-request-link={step.actionKind === 'request' ? true : undefined}
 											class="mt-2.5 inline-flex items-center justify-center rounded-full border border-white/14 bg-white/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:border-white/24 hover:bg-white/12"
 										>
 											{step.actionLabel}
@@ -355,45 +374,6 @@ const actionHref = (actionKind: ActionKind) => {
 					</ol>
 				</section>
 			</section>
-
-			<!-- <section class="grid gap-4 pb-4 lg:grid-cols-[1.05fr_0.95fr]">
-				<div class="rounded-[1.5rem] border border-white/10 bg-black/22 p-4 backdrop-blur-md sm:p-5">
-					<div class="mb-4 flex items-end justify-between gap-4">
-						<div>
-							<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.videoEyebrow}</p>
-							<h2 class="mt-2 text-lg font-semibold text-white sm:text-2xl">{t.videoTitle}</h2>
-						</div>
-						<p class="max-w-xs text-right text-sm leading-6 text-white/55">
-							{t.videoHint}
-						</p>
-					</div>
-					<VideoEmbed url={youtubeEmbedUrl} title={t.videoTitle} client:load />
-				</div>
-
-				<div class="grid gap-4">
-					<section class="rounded-[1.5rem] border border-white/10 bg-black/22 p-5 backdrop-blur-md">
-						<p class="text-[11px] font-medium uppercase tracking-[0.22em] text-white/45 sm:text-xs">{t.accessEyebrow}</p>
-						<h2 id="access-title" class="mt-2.5 text-xl font-semibold text-white sm:text-2xl">{t.accessTitle}</h2>
-						<p class="mt-3 text-sm leading-6 text-white/60">
-							{t.accessText}
-						</p>
-						<a
-							href={syncioRequestUrl}
-							class="mt-5 inline-flex items-center justify-center rounded-full bg-[#e50914] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#f6121d]"
-						>
-							{t.secondaryCta}
-						</a>
-					</section>
-
-					<section class="rounded-[1.5rem] border border-white/10 bg-black/22 p-5 backdrop-blur-md">
-						<h2 id="support-title" class="text-lg font-semibold text-white sm:text-xl">{t.supportTitle}</h2>
-						<p class="mt-3 text-sm leading-6 text-white/60">
-							{t.supportText}
-						</p>
-						<p class="mt-4 text-sm font-medium text-white/85">{t.moneyLabel}: {mobileMoneyNumber}</p>
-					</section>
-				</div>
-			</section> -->
 		</main>
 
 		<footer class="border-t border-white/10 py-4 text-sm text-white/45">
@@ -404,9 +384,60 @@ const actionHref = (actionKind: ActionKind) => {
 </div>
 
 <style>
+	[data-preference-option][data-active='true'] {
+		background: #bbb;
+		color: rgb(2 6 23);
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.circuit-map {
 			display: none;
 		}
 	}
 </style>
+
+<script is:inline>
+	(() => {
+		const root = document.currentScript?.previousElementSibling;
+
+		if (!(root instanceof HTMLElement)) return;
+
+		const inviteEn = root.dataset.inviteEn;
+		const inviteFr = root.dataset.inviteFr;
+
+		if (!inviteEn || !inviteFr) return;
+
+		let currentPreference = root.dataset.defaultPreference === 'fr' ? 'fr' : 'en';
+
+		const preferenceButtons = Array.from(root.querySelectorAll('[data-preference-option]'));
+		const requestLinks = Array.from(root.querySelectorAll('[data-request-link]'));
+
+		const update = () => {
+			const nextHref = currentPreference === 'fr' ? inviteFr : inviteEn;
+
+			requestLinks.forEach((link) => {
+				if (link instanceof HTMLAnchorElement) {
+					link.href = nextHref;
+				}
+			});
+
+			preferenceButtons.forEach((button) => {
+				if (!(button instanceof HTMLButtonElement)) return;
+
+				const isActive = button.dataset.preferenceOption === currentPreference;
+				button.dataset.active = isActive ? 'true' : 'false';
+			});
+		};
+
+		preferenceButtons.forEach((button) => {
+			if (!(button instanceof HTMLButtonElement)) return;
+
+			button.addEventListener('click', () => {
+				currentPreference = button.dataset.preferenceOption === 'fr' ? 'fr' : 'en';
+				update();
+			});
+		});
+
+		update();
+	})();
+</script>

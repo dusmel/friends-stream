@@ -1,4 +1,5 @@
 ---
+import FontPicker from '../components/FontPicker';
 import VideoEmbed from '../components/VideoEmbed';
 import Layout from '../layouts/Layout.astro';
 
@@ -44,14 +45,112 @@ const steps = [
 	description="A simple private streaming guide for Hadad's friends and family."
 >
 	<div class="relative isolate min-h-screen overflow-hidden bg-[#06070b] text-white">
-		<div
-			class="absolute inset-0 -z-30 bg-cover bg-center bg-no-repeat opacity-35"
-			style="background-image: url('/images/streaming-poster.jpg');"
-		></div>
-		<div class="absolute inset-0 -z-20 bg-[linear-gradient(90deg,_rgba(6,7,11,0.92)_0%,_rgba(6,7,11,0.78)_42%,_rgba(6,7,11,0.72)_100%)]"></div>
-		<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(239,68,68,0.18),_transparent_32%),radial-gradient(circle_at_80%_20%,_rgba(59,130,246,0.14),_transparent_28%),linear-gradient(180deg,_rgba(6,7,11,0.18),_rgba(6,7,11,0.92))]"></div>
-		<div class="pointer-events-none absolute inset-0 opacity-[0.14] mix-blend-screen noise"></div>
-		<div class="pointer-events-none absolute inset-x-0 top-0 h-full opacity-45 lines"></div>
+		<img
+			src="/images/Fantasy-Wallpaper.jpg"
+			alt=""
+			aria-hidden="true"
+			loading="eager"
+			decoding="async"
+			class="absolute inset-0 -z-30 h-full w-full scale-[1.02] object-cover object-[72%_center] opacity-90 sm:object-[68%_center] lg:object-right"
+			style="mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.78) 24%, rgba(0, 0, 0, 1) 48%, rgba(0, 0, 0, 0.88) 100%); -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.78) 24%, rgba(0, 0, 0, 1) 48%, rgba(0, 0, 0, 0.88) 100%);"
+		/>
+		<div class="absolute inset-0 -z-20 bg-[linear-gradient(90deg,_rgba(6,7,11,0.97)_0%,_rgba(6,7,11,0.86)_22%,_rgba(6,7,11,0.52)_56%,_rgba(6,7,11,0.34)_76%,_rgba(6,7,11,0.68)_100%)]"></div>
+		<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_78%_30%,_rgba(255,255,255,0.12),_transparent_24%),linear-gradient(180deg,_rgba(6,7,11,0.06),_rgba(6,7,11,0.92))]"></div>
+		<div class="absolute inset-y-0 left-0 -z-10 w-[48%] bg-[linear-gradient(90deg,_rgba(6,7,11,0.9),_rgba(6,7,11,0.55),_transparent)]"></div>
+		<div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-[linear-gradient(180deg,_transparent,_rgba(6,7,11,0.92))]"></div>
+		<div class="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-screen noise"></div>
+		<div class="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-[62%] opacity-80 mix-blend-screen md:block circuit-map">
+			<svg viewBox="0 0 960 1200" class="h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+				<defs>
+					<filter id="glow">
+						<feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+						<feMerge>
+							<feMergeNode in="blur"></feMergeNode>
+							<feMergeNode in="SourceGraphic"></feMergeNode>
+						</feMerge>
+					</filter>
+					<path id="route-a" d="M90 140 H350 V260 H270 V420 H500 V640 H370 V910 H760" />
+					<path id="route-b" d="M200 90 V230 H450 V370 H650 V520 H520 V900" />
+					<path id="route-c" d="M760 120 H560 V250 H790 V470 H660 V730 H850" />
+					<path id="route-d" d="M280 640 H470 V810 H720" />
+					<path id="route-e" d="M130 300 H240 V520 H420 V700 H610 V980" />
+					<path id="route-f" d="M520 170 V330 H320 V540 H760" />
+					<path id="route-g" d="M650 240 H860 V420 H740 V1020" />
+					<path id="route-h" d="M410 110 V180 H710 V340 H610 V580 H820" />
+					<path id="route-i" d="M180 760 H330 V980 H560 V1110 H820" />
+				</defs>
+				<g fill="none" stroke="rgba(255,255,255,0.085)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<use href="#route-a"></use>
+					<use href="#route-b"></use>
+					<use href="#route-c"></use>
+					<use href="#route-d"></use>
+					<use href="#route-e"></use>
+					<use href="#route-f"></use>
+					<use href="#route-g"></use>
+					<use href="#route-h"></use>
+					<use href="#route-i"></use>
+				</g>
+				<g fill="rgba(255,255,255,0.16)">
+					<circle cx="350" cy="260" r="3"></circle>
+					<circle cx="270" cy="420" r="3"></circle>
+					<circle cx="500" cy="640" r="3"></circle>
+					<circle cx="450" cy="230" r="3"></circle>
+					<circle cx="650" cy="370" r="3"></circle>
+					<circle cx="520" cy="540" r="3"></circle>
+					<circle cx="790" cy="470" r="3"></circle>
+					<circle cx="610" cy="580" r="3"></circle>
+					<circle cx="740" cy="420" r="3"></circle>
+					<circle cx="420" cy="700" r="3"></circle>
+				</g>
+				<g filter="url(#glow)">
+					<circle r="3.6" fill="rgba(255,255,255,0.98)">
+						<animateMotion dur="7.5s" repeatCount="indefinite" rotate="auto">
+							<mpath href="#route-a"></mpath>
+						</animateMotion>
+					</circle>
+					<rect width="18" height="2.2" rx="999" fill="rgba(255,255,255,0.96)">
+						<animateMotion dur="9.4s" repeatCount="indefinite" rotate="auto">
+							<mpath href="#route-b"></mpath>
+						</animateMotion>
+					</rect>
+					<circle r="3.2" fill="rgba(255,255,255,0.95)">
+						<animateMotion dur="8.6s" repeatCount="indefinite" rotate="auto" begin="-3s">
+							<mpath href="#route-c"></mpath>
+						</animateMotion>
+					</circle>
+					<rect width="15" height="2" rx="999" fill="rgba(255,255,255,0.9)">
+						<animateMotion dur="6.8s" repeatCount="indefinite" rotate="auto" begin="-1.8s">
+							<mpath href="#route-d"></mpath>
+						</animateMotion>
+					</rect>
+					<circle r="2.8" fill="rgba(255,255,255,0.9)">
+						<animateMotion dur="10.2s" repeatCount="indefinite" rotate="auto" begin="-4.2s">
+							<mpath href="#route-e"></mpath>
+						</animateMotion>
+					</circle>
+					<rect width="20" height="2.4" rx="999" fill="rgba(255,255,255,0.96)">
+						<animateMotion dur="11.5s" repeatCount="indefinite" rotate="auto" begin="-2.6s">
+							<mpath href="#route-f"></mpath>
+						</animateMotion>
+					</rect>
+					<circle r="3.4" fill="rgba(255,255,255,0.95)">
+						<animateMotion dur="8.8s" repeatCount="indefinite" rotate="auto" begin="-5.4s">
+							<mpath href="#route-g"></mpath>
+						</animateMotion>
+					</circle>
+					<rect width="16" height="2.2" rx="999" fill="rgba(255,255,255,0.94)">
+						<animateMotion dur="9.8s" repeatCount="indefinite" rotate="auto" begin="-6.1s">
+							<mpath href="#route-h"></mpath>
+						</animateMotion>
+					</rect>
+					<circle r="3" fill="rgba(255,255,255,0.92)">
+						<animateMotion dur="12s" repeatCount="indefinite" rotate="auto" begin="-7s">
+							<mpath href="#route-i"></mpath>
+						</animateMotion>
+					</circle>
+				</g>
+			</svg>
+		</div>
 
 		<div class="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 			<main id="top" class="flex-1">
@@ -83,11 +182,18 @@ const steps = [
 						<p class="mt-5 text-sm leading-6 text-white/55">
 							Syncio handles the access flow and can help with Stremio account setup if needed.
 						</p>
+						<div class="mt-8 max-w-xl rounded-[1.4rem] border border-white/10 bg-black/25 p-4 backdrop-blur-md sm:p-5">
+							<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Font preview</p>
+							<p class="mt-2 text-sm leading-6 text-white/60">
+								Try a few directions and see which one feels right for the page.
+							</p>
+							<FontPicker client:load />
+						</div>
 					</div>
 
 					<section
 						aria-labelledby="instructions-title"
-						class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.85)] backdrop-blur-xl sm:p-8"
+						class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 p-6 shadow-[0_24px_80px_-40px_rgba(0,0,0,0.85)] backdrop-blur-md sm:p-8"
 					>
 						<div class="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
 						<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Start here</p>
@@ -128,7 +234,7 @@ const steps = [
 				</section>
 
 				<section class="grid gap-5 pb-6 lg:grid-cols-[1.05fr_0.95fr]">
-					<div class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-4 backdrop-blur-xl sm:p-5">
+					<div class="rounded-[1.75rem] border border-white/10 bg-black/25 p-4 backdrop-blur-md sm:p-5">
 						<div class="mb-4 flex items-end justify-between gap-4">
 							<div>
 								<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Quick guide</p>
@@ -142,7 +248,7 @@ const steps = [
 					</div>
 
 					<div class="grid gap-5">
-						<section class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+						<section class="rounded-[1.75rem] border border-white/10 bg-black/25 p-6 backdrop-blur-md">
 							<p class="text-xs font-medium uppercase tracking-[0.22em] text-white/45">Request access</p>
 							<h2 id="access-title" class="mt-3 text-2xl font-semibold text-white">Need to be added?</h2>
 							<p class="mt-3 text-sm leading-6 text-white/60">
@@ -156,7 +262,7 @@ const steps = [
 							</a>
 						</section>
 
-						<section class="rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl">
+						<section class="rounded-[1.75rem] border border-white/10 bg-black/25 p-6 backdrop-blur-md">
 							<h2 id="support-title" class="text-xl font-semibold text-white">Want to support the project?</h2>
 							<p class="mt-3 text-sm leading-6 text-white/60">
 								Coffee is optional, but appreciated.
@@ -178,36 +284,6 @@ const steps = [
 	.noise {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 		animation: grainShift 9s steps(8) infinite;
-	}
-
-	.lines::before,
-	.lines::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background-repeat: no-repeat;
-	}
-
-	.lines::before {
-		background-image: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.18) 48%, transparent 52%);
-		background-size: 200% 100%;
-		animation: drift 14s linear infinite;
-	}
-
-	.lines::after {
-		background-image: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 49.5%, transparent 50.5%);
-		background-size: 280px 100%;
-		opacity: 0.35;
-	}
-
-	@keyframes drift {
-		from {
-			transform: translateX(-18%);
-		}
-
-		to {
-			transform: translateX(18%);
-		}
 	}
 
 	@keyframes grainShift {
@@ -233,6 +309,16 @@ const steps = [
 
 		100% {
 			transform: translate(0, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.noise {
+			animation: none;
+		}
+
+		.circuit-map {
+			display: none;
 		}
 	}
 </style>
